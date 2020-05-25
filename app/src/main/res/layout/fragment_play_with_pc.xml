@@ -88,7 +88,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/layout_difficulty_button"
+            android:background="@drawable/layout_difficulty_button_secondary"
             android:text="@string/difficulty_low"
             android:textColor="@color/white"
             android:textStyle="bold"

@@ -2,13 +2,19 @@ package uz.mahmudxon.tictactoe.ui.home
 
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_home.*
 import uz.mahmudxon.tictactoe.R
 import uz.mahmudxon.tictactoe.ui.base.BaseFragment
+import javax.inject.Inject
 
 
 class HomeFragment : BaseFragment(R.layout.fragment_home), View.OnClickListener {
 
+    @Inject
+    lateinit var providerFactory: ViewModelProvider.Factory
+    private val viewModel: HomeViewModel by viewModels { providerFactory }
 
     override fun onCreate(view: View) {
         openBottomAnimate()
@@ -46,3 +52,5 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), View.OnClickListener 
         }
     }
 }
+
+
