@@ -1,24 +1,33 @@
 package uz.mahmudxon.tictactoe.ui.playwithfriend
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-
+import android.view.animation.AnimationUtils
+import kotlinx.android.synthetic.main.fragment_play_with_friend.*
 import uz.mahmudxon.tictactoe.R
+import uz.mahmudxon.tictactoe.ui.base.BaseFragment
 
-/**
- * A simple [Fragment] subclass.
- */
-class PlayWithFriendFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_play_with_friend, container, false)
+class PlayWithFriendFragment : BaseFragment(R.layout.fragment_play_with_friend) {
+    override fun onCreate(view: View) {
+        openBottomAnimate()
     }
 
+
+    override fun onPause() {
+        closeBottomAnimate()
+        super.onPause()
+    }
+
+    private fun openBottomAnimate() {
+        val animBottomLayout =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.bottom_layout_open_anim)
+        bottomLayout.animation = animBottomLayout
+        bottomLayout.animate()
+    }
+
+    private fun closeBottomAnimate() {
+        val animBottomLayout =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.bottom_layout_close_anim)
+        bottomLayout.animation = animBottomLayout
+        bottomLayout.animate()
+    }
 }

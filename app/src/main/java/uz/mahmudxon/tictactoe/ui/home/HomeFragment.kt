@@ -11,20 +11,28 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), View.OnClickListener 
 
 
     override fun onCreate(view: View) {
-        animate()
+        openBottomAnimate()
         playWithFriend?.setOnClickListener(this)
         playWithJarvis?.setOnClickListener(this)
     }
 
-    private fun animate() {
+    private fun openBottomAnimate() {
         val animBottomLayout =
-            AnimationUtils.loadAnimation(requireContext(), R.anim.bottom_layout_anim)
-        val animIcSettings =
-            AnimationUtils.loadAnimation(requireContext(), R.anim.icon_settings_anim)
+            AnimationUtils.loadAnimation(requireContext(), R.anim.bottom_layout_open_anim)
         bottomLayout.animation = animBottomLayout
         bottomLayout.animate()
-        icSetting.animation = animIcSettings
-        icSetting.animate()
+    }
+
+    private fun closeBottomAnimate() {
+        val animBottomLayout =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.bottom_layout_close_anim)
+        bottomLayout.animation = animBottomLayout
+        bottomLayout.animate()
+    }
+
+    override fun onPause() {
+        closeBottomAnimate()
+        super.onPause()
     }
 
     override fun onClick(v: View?) {
