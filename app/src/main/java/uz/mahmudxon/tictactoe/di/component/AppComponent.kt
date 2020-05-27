@@ -8,13 +8,13 @@ import dagger.android.support.AndroidSupportInjectionModule
 import uz.mahmudxon.tictactoe.app.TicTacToe
 import uz.mahmudxon.tictactoe.di.module.app.AppModule
 import uz.mahmudxon.tictactoe.di.module.ui.ActivityBuilderModule
-import uz.mahmudxon.tictactoe.di.module.viewmodel.ViewModelFactoryModule
+import uz.mahmudxon.tictactoe.di.module.viewmodel.ViewModelBindingModule
 
 @Component(
     modules = [AndroidSupportInjectionModule::class,
         AppModule::class,
         ActivityBuilderModule::class,
-        ViewModelFactoryModule::class]
+        ViewModelBindingModule::class]
 )
 interface AppComponent : AndroidInjector<TicTacToe> {
 

@@ -6,7 +6,7 @@ import dagger.Module
 import uz.mahmudxon.tictactoe.viewmodels.ViewModelProviderFactory
 
 @Module
-abstract class ViewModelFactoryModule {
+abstract class ViewModelBindingModule {
     @Binds
     abstract fun bindViewModelFactory(viewModelFactory: ViewModelProviderFactory): ViewModelProvider.Factory
 }

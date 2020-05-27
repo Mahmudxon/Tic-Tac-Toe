@@ -2,6 +2,5 @@ package uz.mahmudxon.tictactoe.di.module.ui.playwithpc
 
 import dagger.Module
 
-@Module
-class PlayWithPcFragmentModule {
-}
+@Module(includes = [PlayWithPcViewModelModule::class])
+class PlayWithPcFragmentModule

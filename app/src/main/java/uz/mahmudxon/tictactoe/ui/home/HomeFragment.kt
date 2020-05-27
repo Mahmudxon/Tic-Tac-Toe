@@ -14,6 +14,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), View.OnClickListener 
 
     @Inject
     lateinit var providerFactory: ViewModelProvider.Factory
+
     private val viewModel: HomeViewModel by viewModels { providerFactory }
 
     override fun onCreate(view: View) {
