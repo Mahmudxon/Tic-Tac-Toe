@@ -46,7 +46,8 @@
         tools:layout="@layout/fragment_play_with_pc">
         <action
             android:id="@+id/action_playWithPcFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
+            app:destination="@id/gameFragment"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
 
     <fragment

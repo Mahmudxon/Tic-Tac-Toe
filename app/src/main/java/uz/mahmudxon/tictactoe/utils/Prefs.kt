@@ -11,6 +11,8 @@ class Prefs @Inject constructor(app: Context) {
     private var prefs: SharedPreferences
 
     val level = "level"
+    val isJarvisWithX = "isJarvisWithX"
+    val isCrossFirst = "isCrossFirst"
 
     init {
         prefs = app.getSharedPreferences(prefsName, Context.MODE_PRIVATE)

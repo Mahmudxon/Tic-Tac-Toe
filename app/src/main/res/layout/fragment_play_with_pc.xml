@@ -157,8 +157,8 @@
 
         <ImageButton
             android:id="@+id/wepon_cross"
-            android:layout_width="@dimen/circle_cross_button_width_height"
-            android:layout_height="@dimen/circle_cross_button_width_height"
+            android:layout_width="20dp"
+            android:layout_height="33dp"
             android:layout_marginTop="@dimen/circle_cross_top_margin"
             android:layout_marginEnd="@dimen/cross_end_margin"
             android:layout_marginRight="@dimen/cross_end_margin"
