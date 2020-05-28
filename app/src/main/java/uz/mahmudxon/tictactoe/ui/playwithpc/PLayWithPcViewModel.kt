@@ -47,7 +47,7 @@ class PLayWithPcViewModel @Inject constructor() : ViewModel() {
     }
 
     fun loadWhoFistFromCache() {
-        val jb = prefs.get(prefs.isJarvisWithX, false)
+        val jb = prefs.get(prefs.isCrossFirst, false)
         isCrossFirst.value = jb
     }
 
