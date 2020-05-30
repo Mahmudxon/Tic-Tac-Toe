@@ -50,7 +50,4 @@ class PLayWithPcViewModel @Inject constructor() : ViewModel() {
         val jb = prefs.get(prefs.isCrossFirst, false)
         isCrossFirst.value = jb
     }
-
-
-
 }
