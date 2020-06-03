@@ -28,7 +28,7 @@ class PLayWithPcViewModel @Inject constructor() : ViewModel() {
     }
 
     fun loadJarvisButtonFromCache() {
-        val jb = prefs.get(prefs.isCrossFirst, false)
+        val jb = prefs.get(prefs.isJarvisWithX, false)
         isJarvisWithX.value = jb
     }
 

@@ -1,5 +1,6 @@
 package uz.mahmudxon.tictactoe.ui.playwithfriend
 
+import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
@@ -66,8 +67,13 @@ class PlayWithFriendFragment : BaseFragment(R.layout.fragment_play_with_friend),
             R.id.circle -> viewModel.setIsCrossFirst(false)
             R.id.cross -> viewModel.setIsCrossFirst(true)
             R.id.btnPlay -> {
-                // There Can Send Something to GameFragment
-                navController.navigate(R.id.action_playWithFriendFragment_to_gameFragment)
+                val playerO: String =
+                    circle_player?.text?.toString() ?: "Player-O"
+                val playerX: String = cross_player?.text?.toString() ?: "Player-X"
+                val bundle = Bundle()
+                bundle.putString("playerO", playerO)
+                bundle.putString("playerX", playerX)
+                navController.navigate(R.id.action_playWithFriendFragment_to_gameFragment, bundle)
             }
             R.id.btnQuit -> activity?.onBackPressed()
         }

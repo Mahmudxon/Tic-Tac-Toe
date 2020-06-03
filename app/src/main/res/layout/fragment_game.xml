@@ -212,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:singleLine="true"
-                android:text="Jone"
+                android:text="@string/you"
                 android:textColor="@color/white"
                 android:textSize="@dimen/player_name_text_size" />
 
@@ -265,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:singleLine="true"
-                android:text="Jone"
+                android:text="@string/jarvis"
                 android:textColor="@color/white"
                 android:textSize="@dimen/player_name_text_size" />
 
@@ -281,7 +281,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -304,9 +303,6 @@
             android:text="@string/quit_button"
             android:textColor="#e60000"
             android:textSize="@dimen/button_text_size" />
-
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
