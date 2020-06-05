@@ -1,6 +1,7 @@
 package uz.mahmudxon.tictactoe.ui.game
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,18 +16,39 @@ class GameViewModel @Inject constructor() : ViewModel() {
     private val players = MutableLiveData<List<String>>()
     private var isSingleMode: Boolean = false
     private val buttons = MutableLiveData<List<Int>>()
+    private var isX = false
+
+    private val btnArray: ArrayList<Int> = ArrayList()
+
     fun getIsCrossTurn(): LiveData<Boolean> = isCrossFirst
 
     private fun changeTurn() {
-        val isCrossFirst = this.isCrossFirst.value
-        this.isCrossFirst.value = isCrossFirst != true
+        isX = !isX
+        this.isCrossFirst.value = isX
+        if (isSomeBodyWin() != -1) {
+            // somebody is won
+            Log.d("TTT", "changeTurn: ${isSomeBodyWin()}")
+            clearButtons()
+            return
+        }
+
+        if (isFullButtons()) {
+            // Draw ;-)
+            clearButtons()
+        }
+        if (isJarvisTurn())
+            goJarvis()
     }
 
     fun getButtons(): LiveData<List<Int>> = buttons
 
     private fun loadWhoFistFromCache() {
         val jb = prefs.get(prefs.isCrossFirst, false)
+        isX = jb
         isCrossFirst.value = jb
+        clearButtons()
+        if (isJarvisTurn())
+            goJarvis()
     }
 
     fun getPlayers(): LiveData<List<String>> = players
@@ -65,11 +87,6 @@ class GameViewModel @Inject constructor() : ViewModel() {
             setupDoubleMode(playerO, playerX)
         }
         loadWhoFistFromCache()
-
-        val buttons = ArrayList<Int>()
-        for (x in 1..10)
-            buttons.add(-1)
-        this.buttons.value = buttons
     }
 
     private fun loadJarvisJarvisFromCache() {
@@ -77,9 +94,59 @@ class GameViewModel @Inject constructor() : ViewModel() {
         isJarvisWithX.value = jb
     }
 
-    private fun isJarvisTurn() = isJarvisWithX.value == isCrossFirst.value && isSingleMode
+    private fun isJarvisTurn() =
+        isJarvisWithX.value == isCrossFirst.value && isSingleMode || btnArray.size != 9
 
     fun setOnClickGameButton(which: Int) {
 
+        val index = which - 1
+        if (btnArray[index] == 0) {
+            btnArray[index] = if (isX) 2 else 1
+        }
+        buttons.value = btnArray
+        changeTurn()
+    }
+
+    private fun clearButtons() {
+        val data = IntArray(9) { 0 }.asList()
+        btnArray.clear()
+        btnArray.addAll(data)
+        this.buttons.value = btnArray
+        Log.d("TTT", "clearButtons: $data")
+    }
+
+    private fun isFullButtons() = btnArray.indexOf(0) < 0
+
+    private fun isSomeBodyWin(): Int {
+        if (btnArray[0] > 0 && btnArray[0] == btnArray[1] && btnArray[1] == btnArray[2])
+            return btnArray[0]
+
+        if (btnArray[3] > 0 && btnArray[3] == btnArray[4] && btnArray[4] == btnArray[5])
+            return btnArray[3]
+
+        if (btnArray[6] > 0 && btnArray[6] == btnArray[7] && btnArray[7] == btnArray[8])
+            return btnArray[6]
+
+        if (btnArray[0] > 0 && btnArray[0] == btnArray[3] && btnArray[3] == btnArray[6])
+            return btnArray[6]
+
+        if (btnArray[1] > 0 && btnArray[1] == btnArray[4] && btnArray[4] == btnArray[7])
+            return btnArray[7]
+
+        if (btnArray[2] > 0 && btnArray[2] == btnArray[5] && btnArray[5] == btnArray[8])
+            return btnArray[2]
+
+        if (btnArray[0] > 0 && btnArray[0] == btnArray[4] && btnArray[4] == btnArray[8])
+            return btnArray[0]
+
+        if (btnArray[2] > 0 && btnArray[2] == btnArray[4] && btnArray[4] == btnArray[6])
+            return btnArray[2]
+
+        return -1
+    }
+
+    private fun goJarvis() {
+        val freeSpaces = btnArray.indexOf(0)
+        setOnClickGameButton(freeSpaces + 1)
     }
 }

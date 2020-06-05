@@ -68,8 +68,8 @@ class PlayWithFriendFragment : BaseFragment(R.layout.fragment_play_with_friend),
             R.id.cross -> viewModel.setIsCrossFirst(true)
             R.id.btnPlay -> {
                 val playerO: String =
-                    circle_player?.text?.toString() ?: "Player-O"
-                val playerX: String = cross_player?.text?.toString() ?: "Player-X"
+                    player_one?.text?.toString() ?: "Player-O"
+                val playerX: String = player_two?.text?.toString() ?: "Player-X"
                 val bundle = Bundle()
                 bundle.putString("playerO", playerO)
                 bundle.putString("playerX", playerX)

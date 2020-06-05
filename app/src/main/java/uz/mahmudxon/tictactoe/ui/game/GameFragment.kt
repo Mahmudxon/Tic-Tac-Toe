@@ -1,6 +1,7 @@
 package uz.mahmudxon.tictactoe.ui.game
 
 import android.view.View
+import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +40,7 @@ class GameFragment : BaseFragment(R.layout.fragment_game), View.OnClickListener 
     private fun setObservers() {
         viewModel.getIsCrossTurn().observe(this, Observer { if (it) crossTurn() else circleTurn() })
         viewModel.getPlayers().observe(this, Observer { setPlayerNames(it) })
+        viewModel.getButtons().observe(this, Observer { setDataToGameButtons(it) })
     }
 
 
@@ -55,6 +57,27 @@ class GameFragment : BaseFragment(R.layout.fragment_game), View.OnClickListener 
     private fun circleTurn() {
         player1_trophy?.setImageResource(R.drawable.ic_trophy_golden)
         player2_trophy?.setImageResource(R.drawable.ic_trophy_grey)
+    }
+
+
+    private fun setDataToGameButtons(data: List<Int>) {
+        for (position in 1..data.size) {
+            val resId =
+                if (data[position - 1] == 2) R.drawable.ic_cross_secondary else if (data[position - 1] == 1) R.drawable.ic_circle_secondary else 0
+            val imageView: ImageView? = when (position) {
+                1 -> btn1
+                2 -> btn2
+                3 -> btn3
+                4 -> btn4
+                5 -> btn5
+                6 -> btn6
+                7 -> btn7
+                8 -> btn8
+                9 -> btn9
+                else -> null
+            }
+            imageView?.setImageResource(resId)
+        }
     }
 
     override fun onBackPressed() {
