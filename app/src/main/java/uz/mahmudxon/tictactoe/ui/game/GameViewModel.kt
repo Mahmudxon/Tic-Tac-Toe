@@ -5,6 +5,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import uz.mahmudxon.tictactoe.utils.Prefs
 import javax.inject.Inject
 
@@ -29,13 +35,13 @@ class GameViewModel @Inject constructor() : ViewModel() {
             // somebody is won
             Log.d("TTT", "changeTurn: ${isSomeBodyWin()}")
             clearButtons()
-            return
         }
 
         if (isFullButtons()) {
             // Draw ;-)
             clearButtons()
         }
+        Log.d("TTT", "changeTurn: Check Jarvis Turn or not")
         if (isJarvisTurn())
             goJarvis()
     }
@@ -97,7 +103,10 @@ class GameViewModel @Inject constructor() : ViewModel() {
     private fun isJarvisTurn() =
         isJarvisWithX.value == isCrossFirst.value && isSingleMode || btnArray.size != 9
 
-    fun setOnClickGameButton(which: Int) {
+    fun setOnClickGameButton(which: Int, byUser: Boolean = true) {
+
+        if (isJarvisTurn() && byUser)
+            return
 
         val index = which - 1
         if (btnArray[index] == 0) {
@@ -141,12 +150,22 @@ class GameViewModel @Inject constructor() : ViewModel() {
 
         if (btnArray[2] > 0 && btnArray[2] == btnArray[4] && btnArray[4] == btnArray[6])
             return btnArray[2]
-
         return -1
     }
 
     private fun goJarvis() {
+        CoroutineScope(IO).launch {
+            setJarvisLevel()
+        }
+    }
+
+    private suspend fun setJarvisLevel() {
+        delay(500)
         val freeSpaces = btnArray.indexOf(0)
-        setOnClickGameButton(freeSpaces + 1)
+        withContext(Main) {
+            setOnClickGameButton(freeSpaces + 1, false)
+        }
+
+
     }
 }
