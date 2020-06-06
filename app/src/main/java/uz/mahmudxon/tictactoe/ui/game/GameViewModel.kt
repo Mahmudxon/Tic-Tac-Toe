@@ -11,8 +11,10 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import uz.mahmudxon.tictactoe.data.model.Level
 import uz.mahmudxon.tictactoe.utils.Prefs
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 class GameViewModel @Inject constructor() : ViewModel() {
     @Inject
@@ -25,7 +27,8 @@ class GameViewModel @Inject constructor() : ViewModel() {
     private val score = MutableLiveData<List<Int>>()
     private var isX = false
     private var scoreX = 0
-    private var scoreY = 0
+    private var scoreO = 0
+    var jarvisLevel by Delegates.notNull<Int>()
 
     private val btnArray: ArrayList<Int> = ArrayList()
 
@@ -35,9 +38,10 @@ class GameViewModel @Inject constructor() : ViewModel() {
         isX = !isX
         this.isCrossFirst.value = isX
         if (isSomeBodyWin() != -1) {
-            // somebody is won
-            Log.d("TTT", "changeTurn: ${isSomeBodyWin()}")
-            clearButtons()
+            CoroutineScope(IO).launch {
+                someoneWin()
+            }
+            return
         }
 
         if (isFullButtons()) {
@@ -101,6 +105,7 @@ class GameViewModel @Inject constructor() : ViewModel() {
     private fun loadJarvisJarvisFromCache() {
         val jb = prefs.get(prefs.isJarvisWithX, false)
         isJarvisWithX.value = jb
+        jarvisLevel = prefs.get(prefs.level, Level.EASY)
     }
 
     private fun isJarvisTurn() =
@@ -112,9 +117,10 @@ class GameViewModel @Inject constructor() : ViewModel() {
             return
 
         val index = which - 1
-        if (btnArray[index] == 0) {
-            btnArray[index] = if (isX) 2 else 1
+        if (btnArray[index] != 0) {
+            return
         }
+        btnArray[index] = if (isX) 2 else 1
         buttons.value = btnArray
         changeTurn()
     }
@@ -164,12 +170,39 @@ class GameViewModel @Inject constructor() : ViewModel() {
 
     private suspend fun setJarvisLevel() {
         delay(500)
-        val freeSpaces = btnArray.indexOf(0)
+        val index =
+            when (jarvisLevel) {
+                Level.EASY -> {
+                    0
+                }
+                Level.MEDIUM -> {
+                    0
+                }
+                Level.HARD -> {
+                    0
+                }
+                else -> -1
+            }
         withContext(Main) {
-            setOnClickGameButton(freeSpaces + 1, false)
+            setOnClickGameButton(0, false)
         }
     }
 
     fun getScore(): LiveData<List<Int>> = score
+
+    private suspend fun someoneWin() {
+        delay(500)
+        withContext(Main) {
+            if (isSomeBodyWin() == 1)
+                scoreX++
+            else scoreO++
+            score.value = intArrayOf(scoreX, scoreO).toList()
+
+            clearButtons()
+            if (isJarvisTurn())
+                goJarvis()
+        }
+
+    }
 
 }

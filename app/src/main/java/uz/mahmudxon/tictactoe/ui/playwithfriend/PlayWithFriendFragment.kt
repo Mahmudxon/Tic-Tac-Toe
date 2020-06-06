@@ -67,9 +67,14 @@ class PlayWithFriendFragment : BaseFragment(R.layout.fragment_play_with_friend),
             R.id.circle -> viewModel.setIsCrossFirst(false)
             R.id.cross -> viewModel.setIsCrossFirst(true)
             R.id.btnPlay -> {
-                val playerO: String =
-                    player_one?.text?.toString() ?: "${player_one?.hint}"
-                val playerX: String = player_two?.text?.toString() ?: "${player_two?.hint}"
+                var playerO: String =
+                    player_one?.text.toString()
+                if (playerO.isNullOrEmpty())
+                    playerO = requireContext().getString(R.string.circle_hint_text)
+
+                var playerX: String = player_two?.text.toString()
+                if (playerX.isNullOrEmpty())
+                    playerX = requireContext().getString(R.string.cross_hint_text)
                 val bundle = Bundle()
                 bundle.putString("playerO", playerO)
                 bundle.putString("playerX", playerX)

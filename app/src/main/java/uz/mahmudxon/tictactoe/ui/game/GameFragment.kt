@@ -41,8 +41,14 @@ class GameFragment : BaseFragment(R.layout.fragment_game), View.OnClickListener 
         viewModel.getIsCrossTurn().observe(this, Observer { if (it) crossTurn() else circleTurn() })
         viewModel.getPlayers().observe(this, Observer { setPlayerNames(it) })
         viewModel.getButtons().observe(this, Observer { setDataToGameButtons(it) })
+        viewModel.getScore().observe(this, Observer { setScore(it) })
     }
 
+
+    private fun setScore(data: List<Int>) {
+        p1_winning?.text = "${data[0]}"
+        p2_winning?.text = "${data[1]}"
+    }
 
     private fun setPlayerNames(players: List<String>) {
         Player1?.text = players[0]
