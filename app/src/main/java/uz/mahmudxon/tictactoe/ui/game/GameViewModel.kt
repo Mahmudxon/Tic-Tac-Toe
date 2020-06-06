@@ -22,7 +22,10 @@ class GameViewModel @Inject constructor() : ViewModel() {
     private val players = MutableLiveData<List<String>>()
     private var isSingleMode: Boolean = false
     private val buttons = MutableLiveData<List<Int>>()
+    private val score = MutableLiveData<List<Int>>()
     private var isX = false
+    private var scoreX = 0
+    private var scoreY = 0
 
     private val btnArray: ArrayList<Int> = ArrayList()
 
@@ -165,7 +168,8 @@ class GameViewModel @Inject constructor() : ViewModel() {
         withContext(Main) {
             setOnClickGameButton(freeSpaces + 1, false)
         }
-
-
     }
+
+    fun getScore(): LiveData<List<Int>> = score
+
 }
