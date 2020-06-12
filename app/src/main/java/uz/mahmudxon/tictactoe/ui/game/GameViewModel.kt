@@ -45,8 +45,9 @@ class GameViewModel @Inject constructor() : ViewModel() {
         }
 
         if (isFullButtons()) {
-            // Draw ;-)
-            clearButtons()
+            CoroutineScope(IO).launch {
+                draw()
+            }
         }
         Log.d("TTT", "changeTurn: Check Jarvis Turn or not")
         if (isJarvisTurn())
@@ -159,6 +160,7 @@ class GameViewModel @Inject constructor() : ViewModel() {
 
         if (btnArray[2] > 0 && btnArray[2] == btnArray[4] && btnArray[4] == btnArray[6])
             return btnArray[2]
+
         return -1
     }
 
@@ -170,21 +172,22 @@ class GameViewModel @Inject constructor() : ViewModel() {
 
     private suspend fun setJarvisLevel() {
         delay(500)
+        Log.d("TTT", "setJarvisLevel: $jarvisLevel")
         val index =
             when (jarvisLevel) {
                 Level.EASY -> {
-                    0
+                    easyMove()
                 }
                 Level.MEDIUM -> {
-                    0
+                    mediumMove()
                 }
                 Level.HARD -> {
-                    0
+                    hardMove()
                 }
                 else -> -1
             }
         withContext(Main) {
-            setOnClickGameButton(0, false)
+            setOnClickGameButton((index + 1), false)
         }
     }
 
@@ -203,6 +206,87 @@ class GameViewModel @Inject constructor() : ViewModel() {
                 goJarvis()
         }
 
+    }
+
+    private suspend fun easyMove(): Int {
+
+        val freeSpaces = ArrayList<Int>()
+
+        for (i in 0 until btnArray.size)
+            if (btnArray[i] == 0)
+                freeSpaces.add(i)
+
+        return freeSpaces.random()
+    }
+
+    private suspend fun mediumMove(): Int {
+        val jarvis = if (isX) 2 else 1
+        val win = finalMoveForWin(jarvis)
+        return if (win == -1) easyMove() else win
+    }
+
+    private fun finalMoveForWin(x: Int): Int {
+
+        var result = check(x, 0, 1, 2)
+        if (result >= 0) return result
+
+        result = check(x, 3, 4, 5)
+        if (result >= 0) return result
+
+        result = check(x, 6, 7, 8)
+        if (result >= 0) return result
+
+        result = check(x, 0, 3, 6)
+        if (result >= 0) return result
+
+        result = check(x, 1, 4, 7)
+        if (result >= 0) return result
+
+        result = check(x, 2, 5, 8)
+        if (result >= 0) return result
+
+        result = check(x, 0, 4, 8)
+        if (result >= 0) return result
+
+        result = check(x, 2, 4, 6)
+        if (result >= 0) return result
+
+        return -1
+    }
+
+
+    private fun check(x: Int, i1: Int, i2: Int, i3: Int): Int {
+        if (btnArray[i1] == 0) {
+            if (btnArray[i2] == x && btnArray[i3] == x)
+                return i1
+        }
+
+        if (btnArray[i2] == 0) {
+            if (btnArray[i1] == x && btnArray[i3] == x)
+                return i2
+        }
+
+        if (btnArray[i3] == 0) {
+            if (btnArray[i1] == x && btnArray[i2] == x)
+                return i3
+        }
+
+        return -1
+    }
+
+    private suspend fun hardMove(): Int {
+        val jarvis = if (isX) 2 else 1
+        val cont = if (isX) 1 else 2
+        val win = finalMoveForWin(jarvis)
+        val contWin = finalMoveForWin(cont)
+        return if (win != -1) win else if (contWin != -1) contWin else easyMove()
+    }
+
+    private suspend fun draw() {
+        delay(500)
+        CoroutineScope(Main).launch {
+            clearButtons()
+        }
     }
 
 }
