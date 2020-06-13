@@ -1,11 +1,17 @@
 package uz.mahmudxon.tictactoe.ui.game
 
+import android.content.DialogInterface
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_game.*
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import uz.mahmudxon.tictactoe.R
 import uz.mahmudxon.tictactoe.ui.base.BaseFragment
 import javax.inject.Inject
@@ -42,8 +48,8 @@ class GameFragment : BaseFragment(R.layout.fragment_game), View.OnClickListener 
         viewModel.getPlayers().observe(this, Observer { setPlayerNames(it) })
         viewModel.getButtons().observe(this, Observer { setDataToGameButtons(it) })
         viewModel.getScore().observe(this, Observer { setScore(it) })
+        viewModel.getToastMessage().observe(this, Observer { showToast(it) })
     }
-
 
     private fun setScore(data: List<Int>) {
         p1_winning?.text = "${data[0]}"
@@ -64,7 +70,6 @@ class GameFragment : BaseFragment(R.layout.fragment_game), View.OnClickListener 
         player1_trophy?.setImageResource(R.drawable.ic_trophy_golden)
         player2_trophy?.setImageResource(R.drawable.ic_trophy_grey)
     }
-
 
     private fun setDataToGameButtons(data: List<Int>) {
         for (position in 1..data.size) {
@@ -87,7 +92,14 @@ class GameFragment : BaseFragment(R.layout.fragment_game), View.OnClickListener 
     }
 
     override fun onBackPressed() {
-        activity?.onBackPressed()
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Exit from game")
+        builder.setMessage("Game will not save, are sure?")
+        builder.setNegativeButton("No", null)
+        builder.setPositiveButton(
+            "Yes",
+            DialogInterface.OnClickListener { _, _ -> activity?.onBackPressed() })
+        builder.show()
     }
 
     override fun onClick(v: View?) {
@@ -123,6 +135,12 @@ class GameFragment : BaseFragment(R.layout.fragment_game), View.OnClickListener 
             R.id.btn9 -> {
                 viewModel.setOnClickGameButton(9)
             }
+        }
+    }
+
+    private fun showToast(s: String) {
+        GlobalScope.launch(Main) {
+            Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
         }
     }
 }

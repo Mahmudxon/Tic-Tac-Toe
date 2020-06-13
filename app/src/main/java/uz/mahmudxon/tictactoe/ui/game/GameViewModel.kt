@@ -25,6 +25,7 @@ class GameViewModel @Inject constructor() : ViewModel() {
     private var isSingleMode: Boolean = false
     private val buttons = MutableLiveData<List<Int>>()
     private val score = MutableLiveData<List<Int>>()
+    private val toastMessage: MutableLiveData<String> = MutableLiveData()
     private var isX = false
     private var scoreX = 0
     private var scoreO = 0
@@ -35,8 +36,6 @@ class GameViewModel @Inject constructor() : ViewModel() {
     fun getIsCrossTurn(): LiveData<Boolean> = isCrossFirst
 
     private fun changeTurn() {
-        isX = !isX
-        this.isCrossFirst.value = isX
         if (isSomeBodyWin() != -1) {
             CoroutineScope(IO).launch {
                 someoneWin()
@@ -48,13 +47,19 @@ class GameViewModel @Inject constructor() : ViewModel() {
             CoroutineScope(IO).launch {
                 draw()
             }
+            return
         }
+
+        isX = !isX
+        this.isCrossFirst.value = isX
         Log.d("TTT", "changeTurn: Check Jarvis Turn or not")
         if (isJarvisTurn())
             goJarvis()
     }
 
     fun getButtons(): LiveData<List<Int>> = buttons
+
+    fun getToastMessage(): LiveData<String> = toastMessage
 
     private fun loadWhoFistFromCache() {
         val jb = prefs.get(prefs.isCrossFirst, false)
@@ -194,16 +199,19 @@ class GameViewModel @Inject constructor() : ViewModel() {
     fun getScore(): LiveData<List<Int>> = score
 
     private suspend fun someoneWin() {
-        delay(500)
+        delay(700)
         withContext(Main) {
+
+            val winner = if (!isX) players.value?.get(0) else players.value?.get(1)
+            toastMessage.value = "$winner is win!"
+
             if (isSomeBodyWin() == 1)
                 scoreX++
             else scoreO++
             score.value = intArrayOf(scoreX, scoreO).toList()
 
             clearButtons()
-            if (isJarvisTurn())
-                goJarvis()
+            changeTurn()
         }
 
     }
@@ -254,7 +262,6 @@ class GameViewModel @Inject constructor() : ViewModel() {
         return -1
     }
 
-
     private fun check(x: Int, i1: Int, i2: Int, i3: Int): Int {
         if (btnArray[i1] == 0) {
             if (btnArray[i2] == x && btnArray[i3] == x)
@@ -283,10 +290,13 @@ class GameViewModel @Inject constructor() : ViewModel() {
     }
 
     private suspend fun draw() {
-        delay(500)
+        delay(700)
         CoroutineScope(Main).launch {
+            toastMessage.value = "Draw"
             clearButtons()
+            changeTurn()
         }
+
     }
 
 }
