@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uz.mahmudxon.tictactoe">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".app.TicTacToe"
         android:allowBackup="true"
@@ -10,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity" android:screenOrientation="nosensor">
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +23,7 @@
         </activity>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8674490048684814~9722253950"/>
+            android:value="ca-app-pub-8674490048684814~9722253950" />
     </application>
 
 </manifest>
