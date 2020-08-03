@@ -27,8 +27,8 @@ abstract class BaseFragment(@LayoutRes val layout: Int) : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         view.isFocusableInTouchMode = true
         view.requestFocus()
-        view.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
+        view.setOnKeyListener { _, keyCode, e ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && e.action == KeyEvent.ACTION_DOWN) {
                 isUseBackPress = true
                 onBackPressed()
                 return@setOnKeyListener isUseBackPress

@@ -7,16 +7,27 @@
     android:background="@drawable/background"
     tools:ignore="MissingPrefix">
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/banner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_game_board"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-8674490048684814/8886530417"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/icSetting"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/icSetting"
         android:layout_width="@dimen/setting_button_width"
         android:layout_height="@dimen/setting_button_height"
         android:layout_marginTop="@dimen/setting_button_margin"
         android:layout_marginEnd="@dimen/setting_button_margin"
+        android:layout_marginRight="@dimen/setting_button_margin"
         android:src="@drawable/ic_settings"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="@dimen/setting_button_margin" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appName"
@@ -66,14 +77,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appName" />
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/layout_bg"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/playWithJarvis"

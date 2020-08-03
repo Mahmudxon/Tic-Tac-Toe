@@ -7,7 +7,19 @@
     android:background="@drawable/background"
     tools:context=".ui.game.GameFragment">
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/banner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_game_board"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-8674490048684814/8886530417"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/icSetting"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
+        android:id="@+id/icSetting"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginTop="@dimen/setting_button_margin"

@@ -92,4 +92,6 @@ dependencies {
 
     //lifecycle-extensions
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions_version"
+
+    implementation 'com.google.android.gms:play-services-ads:19.3.0'
 }

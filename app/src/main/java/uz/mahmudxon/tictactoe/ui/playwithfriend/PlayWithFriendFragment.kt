@@ -6,7 +6,11 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.AdRequest
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_play_with_friend.*
+import kotlinx.android.synthetic.main.fragment_play_with_friend.banner
+import kotlinx.android.synthetic.main.fragment_play_with_friend.bottomLayout
 import uz.mahmudxon.tictactoe.R
 import uz.mahmudxon.tictactoe.ui.base.BaseFragment
 import javax.inject.Inject
@@ -21,6 +25,8 @@ class PlayWithFriendFragment : BaseFragment(R.layout.fragment_play_with_friend),
     override fun onCreate(view: View) {
         openBottomAnimate()
         setObservers()
+        val adRequest = AdRequest.Builder().build()
+        banner.loadAd(adRequest)
         viewModel.loadWhoFistFromCache()
         cross?.setOnClickListener(this)
         circle?.setOnClickListener(this)

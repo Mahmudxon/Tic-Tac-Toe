@@ -8,7 +8,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_game.*
+import kotlinx.android.synthetic.main.fragment_game.banner
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,6 +31,8 @@ class GameFragment : BaseFragment(R.layout.fragment_game), View.OnClickListener 
         setObservers()
         viewModel.setBundle(arguments)
         setOnClickListeners()
+        val adRequest = AdRequest.Builder().build()
+        banner.loadAd(adRequest)
     }
 
     private fun setOnClickListeners() {
