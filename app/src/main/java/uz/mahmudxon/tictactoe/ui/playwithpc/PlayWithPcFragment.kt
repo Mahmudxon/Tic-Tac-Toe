@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.fragment_play_with_pc.*
 import uz.mahmudxon.tictactoe.R
 import uz.mahmudxon.tictactoe.data.model.Level
@@ -23,6 +24,7 @@ class PlayWithPcFragment : BaseFragment(R.layout.fragment_play_with_pc), View.On
     override fun onCreate(view: View) {
         openBottomAnimate()
         setObservers()
+        MobileAds.initialize(context)
         val adRequest = AdRequest.Builder().build()
         banner.loadAd(adRequest)
         viewModel.loadLevelFromCache()

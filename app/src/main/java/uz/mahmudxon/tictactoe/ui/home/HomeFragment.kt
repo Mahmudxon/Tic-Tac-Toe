@@ -5,6 +5,7 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.fragment_home.*
 import uz.mahmudxon.tictactoe.R
 import uz.mahmudxon.tictactoe.ui.base.BaseFragment
@@ -22,8 +23,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), View.OnClickListener 
         openBottomAnimate()
         playWithFriend?.setOnClickListener(this)
         playWithJarvis?.setOnClickListener(this)
-        val adRequest = AdRequest.Builder().build()
-        banner.loadAd(adRequest)
+        MobileAds.initialize(context)
+        val adRequest = AdRequest.Builder()
+            .build()
+        banner?.loadAd(adRequest)
     }
 
     private fun openBottomAnimate() {
